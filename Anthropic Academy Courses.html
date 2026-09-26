@@ -528,8 +528,9 @@ function filterCert(cert) {
   renderCertInfo();
   render();
 }
-function filterProd(p) { fProd = p; setActive('p', p); render(); }
-function filterAud(a)  { fAud  = a; setActive('a', a); render(); }
+// Erneuter Klick auf den aktiven Filter hebt ihn auf (zurück auf „Alle“)
+function filterProd(p) { fProd = (p !== null && fProd === p) ? null : p; setActive('p', fProd); render(); }
+function filterAud(a)  { fAud  = (a !== null && fAud  === a) ? null : a; setActive('a', fAud);  render(); }
 
 /* ── Formatierung ── */
 function fmtMin(total) {
