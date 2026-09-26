@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthropic Academy — Course Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.14);
+    --text: #1a1917;
+    --text-muted: #6b6a65;
+    --text-faint: #aaa9a3;
+    --accent: #d0562a;
+    --accent-light: #fdf0eb;
+
+    --cat-ein-bg: #e2f6ef;  --cat-ein-tx: #0a6648;
+    --cat-code-bg: #e4effc; --cat-code-tx: #144e96;
+    --cat-cow-bg: #dff3f4;  --cat-cow-tx: #0b5f63;
+    --cat-dev-bg: #eeecfd;  --cat-dev-tx: #4a3fb0;
+    --cat-mcp-bg: #fdf0d8;  --cat-mcp-tx: #7a4a08;
+    --cat-flu-bg: #fce9f1;  --cat-flu-tx: #8c2a50;
+    --cat-cert-bg: #fdebe3; --cat-cert-tx: #9a3a14;
+
+    --bar-ein: #1c9e70;
+    --bar-code: #3483d6;
+    --bar-cow: #149196;
+    --bar-dev: #7570d8;
+    --bar-mcp: #b37015;
+    --bar-flu: #cd4f7a;
+    --bar-cert: #d0562a;
+    --bar-tag: #5b6b2a;
+
+    --c-assoc: #1c9e70;
+    --c-devc: #3483d6;
+    --c-arch: #7570d8;
+    --c-archp: #b0417a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141412;
+      --surface: #1e1d1a;
+      --surface2: #272521;
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.13);
+      --text: #edecea;
+      --text-muted: #9a9890;
+      --text-faint: #5a5955;
+      --accent: #e06535;
+      --accent-light: #2a1c15;
+
+      --cat-ein-bg: #0a3d2c;  --cat-ein-tx: #7ddab8;
+      --cat-code-bg: #0d3562; --cat-code-tx: #90c2f5;
+      --cat-cow-bg: #073d40;  --cat-cow-tx: #83d9dc;
+      --cat-dev-bg: #2c2870;  --cat-dev-tx: #b8b3f7;
+      --cat-mcp-bg: #3d2400;  --cat-mcp-tx: #f5c070;
+      --cat-flu-bg: #4a1530;  --cat-flu-tx: #f0a0c0;
+      --cat-cert-bg: #4a1f0c; --cat-cert-tx: #f5b08f;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 1240px; margin: 0 auto; }
+
+  /* ── Header ── */
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-strong);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  /* ── Sprachauswahl ── */
+  .lang-switch { display: flex; gap: 2px; flex-shrink: 0; margin-top: 2px; }
+  .lang-switch button {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+    padding: 3px 7px; border: none; border-radius: 6px; background: transparent;
+    color: var(--text-faint); cursor: pointer; transition: color 0.12s, background 0.12s;
+  }
+  .lang-switch button:hover { color: var(--text-muted); background: var(--surface2); }
+  .lang-switch button.on { color: var(--text); background: var(--surface2); }
+  .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .logo-dot { width: 28px; height: 28px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; color: var(--text); }
+  .header-meta { font-size: 12px; color: var(--text-faint); margin-top: 4px; }
+  .header-meta a { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+  .header-meta a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── Controls ── */
+  .controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .ctrl-label {
+    font-size: 11px; font-weight: 500; color: var(--text-faint);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-right: 2px; min-width: 96px;
+  }
+  .btn {
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400;
+    padding: 4px 11px; border-radius: 20px;
+    border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted);
+    cursor: pointer; transition: background 0.12s, color 0.12s, border-color 0.12s; white-space: nowrap;
+  }
+  .btn:hover { background: var(--surface2); color: var(--text); }
+  .btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .btn.ein.active  { background: var(--bar-ein);  border-color: var(--bar-ein);  color: #fff; }
+  .btn.code.active { background: var(--bar-code); border-color: var(--bar-code); color: #fff; }
+  .btn.cow.active  { background: var(--bar-cow);  border-color: var(--bar-cow);  color: #fff; }
+  .btn.dev.active  { background: var(--bar-dev);  border-color: var(--bar-dev);  color: #fff; }
+  .btn.mcp.active  { background: var(--bar-mcp);  border-color: var(--bar-mcp);  color: #fff; }
+  .btn.flu.active  { background: var(--bar-flu);  border-color: var(--bar-flu);  color: #fff; }
+  .btn.cert.active { background: var(--bar-cert); border-color: var(--bar-cert); color: #fff; }
+  .btn.assoc.active { background: var(--c-assoc); border-color: var(--c-assoc); color: #fff; }
+  .btn.devc.active  { background: var(--c-devc);  border-color: var(--c-devc);  color: #fff; }
+  .btn.arch.active  { background: var(--c-arch);  border-color: var(--c-arch);  color: #fff; }
+  .btn.archp.active { background: var(--c-archp); border-color: var(--c-archp); color: #fff; }
+  .btn.tag.active  { background: var(--bar-tag);  border-color: var(--bar-tag);  color: #fff; }
+  .btn.oth.active  { background: var(--text-muted); border-color: var(--text-muted); color: #fff; }
+
+  .sep { width: 1px; height: 18px; background: var(--border-strong); flex-shrink: 0; }
+
+  /* ── Cert info box ── */
+  .cert-info {
+    display: none;
+    margin: 4px 0 16px;
+    background: var(--accent-light);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .cert-info.show { display: block; }
+  .ci-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 20px; }
+  .ci-card { border-left: 3px solid var(--cc, var(--accent)); padding-left: 10px; }
+  .ci-card.ct-Associate { --cc: var(--c-assoc); }
+  .ci-card.ct-Developer { --cc: var(--c-devc); }
+  .ci-card.ct-Architect { --cc: var(--c-arch); }
+  .ci-card.ct-ArchitectPro { --cc: var(--c-archp); }
+  .ci-combo { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-strong); font-size: 12.5px; }
+  .ctrl-hint { font-size: 11px; color: var(--text-faint); margin-left: 4px; }
+  .cert-info .ci-title { font-weight: 500; margin-bottom: 6px; color: var(--cc, var(--text)); }
+  .cert-info dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; }
+  .cert-info dt { color: var(--text-muted); font-size: 12px; }
+  .cert-info dd { font-size: 12.5px; }
+  .cert-info .mono { font-family: 'DM Mono', monospace; font-weight: 500; }
+  .cert-info .ci-note { margin-top: 8px; font-size: 11.5px; color: var(--text-muted); }
+  .cert-info a { color: var(--text); }
+  .cert-info a:hover { color: var(--accent); }
+
+  /* ── Table card ── */
+  .table-card { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 12px; overflow: hidden; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  col.cc    { width: 36px; }
+  col.cname { width: auto; }
+  col.cprod { width: 130px; }
+  col.caud  { width: 110px; }
+  col.ccert { width: 200px; }
+  col.cfmt  { width: 110px; }
+  col.ctime { width: 100px; }
+  col.cbar  { width: 100px; }
+
+  thead { background: var(--surface2); border-bottom: 1px solid var(--border-strong); }
+  thead th {
+    padding: 10px 12px; font-size: 11px; font-weight: 500; color: var(--text-faint);
+    text-align: left; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; user-select: none;
+  }
+  thead th.sortable { cursor: pointer; }
+  thead th.sortable:hover { color: var(--text-muted); }
+  thead th.r { text-align: right; }
+
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr.dim { opacity: 0.28; pointer-events: none; }
+
+  td { padding: 10px 12px; vertical-align: middle; color: var(--text); }
+  td.tc { padding-left: 12px; padding-right: 4px; }
+  td.name a { color: var(--text); text-decoration: none; font-weight: 400; }
+  td.name a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  td.time { text-align: right; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  td.na { text-align: right; font-size: 11px; color: var(--text-faint); }
+  td.bar-td { padding-right: 14px; }
+  td.aud { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+  td.certs { white-space: nowrap; }
+  .none { color: var(--text-faint); font-size: 12px; }
+
+  .bar-bg { background: var(--surface2); border-radius: 3px; height: 5px; width: 100%; border: 1px solid var(--border); }
+  .bar-fill { height: 5px; border-radius: 3px; transition: width 0.3s ease; }
+
+  .badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; white-space: nowrap; letter-spacing: 0.02em; }
+  .b-ein  { background: var(--cat-ein-bg);  color: var(--cat-ein-tx);  }
+  .b-code { background: var(--cat-code-bg); color: var(--cat-code-tx); }
+  .b-cow  { background: var(--cat-cow-bg);  color: var(--cat-cow-tx);  }
+  .b-dev  { background: var(--cat-dev-bg);  color: var(--cat-dev-tx);  }
+  .b-mcp  { background: var(--cat-mcp-bg);  color: var(--cat-mcp-tx);  }
+  .b-flu  { background: var(--cat-flu-bg);  color: var(--cat-flu-tx);  }
+  .b-cert { background: var(--cat-cert-bg); color: var(--cat-cert-tx); }
+  .b-tag  { background: #eef2dc; color: #4a5a1c; }
+  .b-oth  { background: var(--surface2); color: var(--text-muted); }
+  @media (prefers-color-scheme: dark) { .b-tag { background: #2e3510; color: #cfdc98; } }
+  .fmt { display: inline-block; font-size: 11px; color: var(--text-muted); white-space: nowrap; border-bottom: 1px dotted var(--border-strong); cursor: help; }
+  .fmt.na { border-bottom: none; color: var(--text-faint); cursor: default; }
+  td.fmt-td { white-space: nowrap; }
+
+  .ctag {
+    display: inline-block; font-size: 10px; font-weight: 500; padding: 1px 7px; margin-right: 3px;
+    border-radius: 20px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .ct-Associate { color: var(--c-assoc); }
+  .ct-Developer { color: var(--c-devc); }
+  .ct-Architect { color: var(--c-arch); }
+  .ct-ArchitectPro { color: var(--c-archp); }
+
+  input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
+  input[type="checkbox"]:disabled { cursor: default; }
+
+  /* ── Summary ── */
+  .summary {
+    margin-top: 16px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 12px;
+    padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .sum-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-faint); font-weight: 500; margin-bottom: 4px; }
+  .sum-value { font-size: 28px; font-weight: 300; font-family: 'DM Mono', monospace; color: var(--text); letter-spacing: -0.5px; line-height: 1; }
+  .sum-unit { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .sum-na   { font-size: 11px; color: var(--text-faint); margin-top: 3px; }
+  .sum-right { text-align: right; }
+  .sum-count { font-size: 13px; color: var(--text-muted); }
+  .sum-breakdown { font-size: 11px; color: var(--text-faint); margin-top: 5px; max-width: 560px; }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 2.5rem; font-size: 11px; color: var(--text-faint); border-top: 1px solid var(--border);
+    padding-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+  }
+  footer a { color: var(--text-faint); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+  footer a:hover { color: var(--accent); }
+
+  .sort-ind { display: inline-block; margin-left: 3px; opacity: 0.6; }
+  .table-scroll { overflow-x: auto; }
+  .table-scroll table { min-width: 980px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="header-left">
+      <div class="logo-row">
+        <div class="logo-dot"></div>
+        <h1 data-i18n="title"></h1>
+      </div>
+      <div class="header-meta" id="hdr-meta"></div>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="de">DE</button>
+    </div>
+  </header>
+
+  <div class="controls">
+    <span class="ctrl-label" data-i18n="lblSelection"></span>
+    <button class="btn" onclick="selAll()" data-i18n="btnAll"></button>
+    <button class="btn" onclick="selNone()" data-i18n="btnNone"></button>
+  </div>
+
+  <div class="controls">
+    <span class="ctrl-label" data-i18n="lblCert"></span>
+    <button class="btn active" id="c-all" onclick="filterCert(null)" data-i18n="allCourses"></button>
+    <button class="btn assoc" id="c-Associate" onclick="filterCert('Associate')">Associate</button>
+    <button class="btn devc"  id="c-Developer" onclick="filterCert('Developer')">Developer</button>
+    <button class="btn arch"  id="c-Architect" onclick="filterCert('Architect')">Architect Foundations</button>
+    <button class="btn archp" id="c-ArchitectPro" onclick="filterCert('ArchitectPro')">Architect Professional</button>
+    <span class="ctrl-hint" data-i18n="multiHint"></span>
+  </div>
+
+  <div class="controls" id="prod-controls">
+    <span class="ctrl-label" data-i18n="lblProduct"></span>
+  </div>
+
+  <div class="controls" id="aud-controls">
+    <span class="ctrl-label" data-i18n="lblAudience"></span>
+  </div>
+
+  <div class="cert-info" id="cert-info"></div>
+
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <colgroup>
+          <col class="cc"><col class="cname"><col class="cprod"><col class="caud"><col class="ccert"><col class="cfmt"><col class="ctime"><col class="cbar">
+        </colgroup>
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="chk-all" onchange="toggleAll(this)"></th>
+            <th class="sortable" onclick="doSort('name')"><span data-i18n="colName"></span> <span class="sort-ind" id="s-name"></span></th>
+            <th class="sortable" onclick="doSort('prod')"><span data-i18n="colProduct"></span> <span class="sort-ind" id="s-prod"></span></th>
+            <th class="sortable" onclick="doSort('aud')"><span data-i18n="colAudience"></span> <span class="sort-ind" id="s-aud"></span></th>
+            <th class="sortable" onclick="doSort('cert')"><span data-i18n="colCert"></span> <span class="sort-ind" id="s-cert"></span></th>
+            <th class="sortable" onclick="doSort('fmt')"><span data-i18n="colFormat"></span> <span class="sort-ind" id="s-fmt"></span></th>
+            <th class="sortable r" onclick="doSort('min')"><span data-i18n="colDuration"></span> <span class="sort-ind" id="s-min"></span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="sum-left">
+      <div class="sum-label" data-i18n="sumLabel"></div>
+      <div class="sum-value" id="sum-val">—</div>
+      <div class="sum-unit" id="sum-unit"></div>
+      <div class="sum-na" id="sum-na"></div>
+    </div>
+    <div class="sum-right">
+      <div class="sum-count" id="sum-count"></div>
+      <div class="sum-breakdown" id="sum-breakdown"></div>
+    </div>
+  </div>
+
+  <footer>
+    <span data-i18n="footerNote"></span>
+    <span><span data-i18n="madeWith"></span> · <a href="https://claude.ai" target="_blank">claude.ai</a></span>
+  </footer>
+
+</div>
+
+<script>
+/* ── Übersetzungen ── */
+const I18N = {
+  en: {
+    title: 'Anthropic Academy — Course Overview',
+    source: 'Source', asOf: 'As of 26 September 2026',
+    lblSelection: 'Selection', btnAll: 'All ✓', btnNone: 'None',
+    lblCert: 'Certification', allCourses: 'All certificates', multiHint: 'Multiple selection possible',
+    lblProduct: 'Product', lblAudience: 'Audience', all: 'All',
+    colName: 'Course', colProduct: 'Product', colAudience: 'Audience', colCert: 'Certificate', colDuration: 'Duration',
+    toggleAllTitle: 'Toggle all visible',
+    sumLabel: 'Total duration of selection',
+    noDuration: 'No duration available',
+    hours: n => '= ' + n + ' hours',
+    selected: (n, t) => n + ' of ' + t + ' courses selected',
+    notIncluded: names => '+ ' + names + ' (no duration, not included)',
+    withoutDur: names => ' (+ ' + names + ' without duration)',
+    price: 'Price', audience: 'Audience', studyTime: 'Study time', prepPage: 'Prep page',
+    combined: 'Combined', examFees: 'exam fees total',
+    shared: (n, saved) => n + ' shared ' + (n === 1 ? 'course' : 'courses') + ' counted once (saves ' + saved + ')',
+    certNote: 'Recommended preparation; no course is formally required. Source of the mapping: prep pages of the Anthropic Partner Academy.',
+    footerNote: 'Durations = total course time per Claude Academy (academy.claude.com); prep courses per Anthropic Partner Academy · Format checked lesson by lesson · Certificate mapping per the prep pages of the Anthropic Partner Academy; no course is formally required',
+    madeWith: 'Made with Claude',
+    na: 'n/a', h: 'h', m: 'min',
+    decimal: '.',
+    prodCert: 'Certification',
+    modules: n => n + ' modules',
+    audAssoc: 'Professional — consultants, sellers, delivery leads',
+    audDev: 'Engineering — engineers building with the API, Claude Code and MCP',
+    audArch: 'Engineering — solution architects',
+    audArchP: 'Engineering — end-to-end Claude system designers',
+    colFormat: 'Format', fmtVT: 'Video + text', fmtT: 'Text',
+    fmtTip: (v, n) => v + ' of ' + n + ' lessons with video',
+    prodOther: 'Other',
+  },
+  de: {
+    title: 'Anthropic Academy — Kursübersicht',
+    source: 'Quelle', asOf: 'Stand: 26.09.2026',
+    lblSelection: 'Auswahl', btnAll: 'Alle ✓', btnNone: 'Keine',
+    lblCert: 'Zertifizierung', allCourses: 'Alle Zertifikate', multiHint: 'Mehrfachauswahl möglich',
+    lblProduct: 'Produkt', lblAudience: 'Zielgruppe', all: 'Alle',
+    colName: 'Kursname', colProduct: 'Produkt', colAudience: 'Zielgruppe', colCert: 'Zertifikat', colDuration: 'Dauer',
+    toggleAllTitle: 'Alle sichtbaren umschalten',
+    sumLabel: 'Gesamtdauer Auswahl',
+    noDuration: 'Keine Zeitangabe verfügbar',
+    hours: n => '= ' + n + ' Stunden',
+    selected: (n, t) => n + ' von ' + t + ' Kursen gewählt',
+    notIncluded: names => '+ ' + names + ' (ohne Zeitangabe, nicht eingerechnet)',
+    withoutDur: names => ' (+ ' + names + ' ohne Zeitangabe)',
+    price: 'Preis', audience: 'Zielgruppe', studyTime: 'Lernzeit', prepPage: 'Prep-Seite',
+    combined: 'Kombiniert', examFees: 'Prüfungsgebühren gesamt',
+    shared: (n, saved) => n + (n === 1 ? ' gemeinsamer Kurs' : ' gemeinsame Kurse') + ' nur einmal gezählt (spart ' + saved + ')',
+    certNote: 'Empfohlene Vorbereitung, kein Kurs ist formal Pflicht. Quelle der Zuordnung: Prep-Seiten der Anthropic Partner Academy.',
+    footerNote: 'Dauer = Gesamtzeit laut Claude Academy (academy.claude.com), Prep-Kurse laut Anthropic Partner Academy · Format je Lektion geprüft · Zertifikats-Zuordnung laut Prep-Seiten der Anthropic Partner Academy; kein Kurs ist formal Pflicht',
+    madeWith: 'Erstellt mit Claude',
+    na: 'k. A.', h: 'Std.', m: 'min',
+    decimal: ',',
+    prodCert: 'Zertifizierung',
+    modules: n => n + ' Module',
+    audAssoc: 'Professional — Berater, Vertrieb, Delivery-Leads',
+    audDev: 'Engineering — Entwickler mit API, Claude Code und MCP',
+    audArch: 'Engineering — Lösungsarchitekten',
+    audArchP: 'Engineering — End-to-End-Designer von Claude-Systemen',
+    colFormat: 'Format', fmtVT: 'Video + Text', fmtT: 'Text',
+    fmtTip: (v, n) => v + ' von ' + n + ' Lektionen mit Video',
+    prodOther: 'Sonstige',
+  }
+};
+
+function coursesWord(n) {
+  if (lang === 'de') return n + (n === 1 ? ' Kurs' : ' Kurse');
+  return n + (n === 1 ? ' course' : ' courses');
+}
+
+let lang = 'en';
+try { const s = localStorage.getItem('aa-courses-lang'); if (I18N[s]) lang = s; } catch (e) {}
+const T = () => I18N[lang];
+
+/* ── Daten ── */
+const PRODUCTS = {
+  'Claude.ai':       {color:'#1c9e70', badge:'b-ein',  cls:'ein'},
+  'Claude Code':     {color:'#3483d6', badge:'b-code', cls:'code'},
+  'Claude Cowork':   {color:'#149196', badge:'b-cow',  cls:'cow'},
+  'Claude Platform': {color:'#7570d8', badge:'b-dev',  cls:'dev'},
+  'Claude Tag':      {color:'#5b6b2a', badge:'b-tag',  cls:'tag'},
+  'MCP':             {color:'#b37015', badge:'b-mcp',  cls:'mcp'},
+  'AI Fluency':      {color:'#cd4f7a', badge:'b-flu',  cls:'flu'},
+  'Cert':            {color:'#d0562a', badge:'b-cert', cls:'cert'},
+  'Other':           {color:'#9a9890', badge:'b-oth',  cls:'oth'}
+};
+const prodLabel = p => p === 'Cert' ? T().prodCert : p === 'Other' ? T().prodOther : p;
+const AUDIENCES = ['Professional', 'Engineering', 'Education', 'Nonprofits'];
+const CERT_ORDER = ['Associate', 'Developer', 'Architect', 'ArchitectPro'];
+const CERT_TAG = {Associate:'Associate', Developer:'Developer', Architect:'Architect F', ArchitectPro:'Architect P'};
+
+const PA = 'https://anthropic-partners.skilljar.com/';
+const CERTS = {
+  Associate:    { exam: 'Claude Certified Associate — Foundations',    price: '$99',  aud: 'audAssoc', prep: PA+'path/claude-certified-associate-foundations' },
+  Developer:    { exam: 'Claude Certified Developer — Foundations',    price: '$125', aud: 'audDev',   prep: PA+'path/claude-certified-developer-foundations' },
+  Architect:    { exam: 'Claude Certified Architect — Foundations',    price: '$125', aud: 'audArch',  prep: PA+'page/claude-certified-architect-foundations-prep-courses' },
+  ArchitectPro: { exam: 'Claude Certified Architect — Professional',   price: '$175', aud: 'audArchP', prep: PA+'path/claude-certified-architect-professional' }
+};
+
+const AC = 'https://academy.claude.com/courses/';
+const COURSES = [
+  {id:0, name:'Claude 101', url:AC+'claude-101', prod:'Claude.ai', aud:'Professional', min:150, fmt:[5,13], cert:['Associate','Developer','Architect','ArchitectPro']},
+  {id:1, name:'Claude Code 101', url:AC+'claude-code-101', prod:'Claude Code', aud:'Engineering', min:90, fmt:[11,12], cert:['Developer']},
+  {id:2, name:'Claude Platform 101', url:AC+'claude-platform-101', prod:'Claude Platform', aud:'Engineering', min:90, fmt:[13,13], cert:['Developer']},
+  {id:3, name:'Introduction to Claude Cowork', url:AC+'introduction-to-claude-cowork', prod:'Claude Cowork', aud:'Professional', min:150, fmt:[7,14], cert:[]},
+  {id:4, name:'Claude Code in action', url:AC+'claude-code-in-action', prod:'Claude Code', aud:'Engineering', min:60, fmt:[9,9], cert:['Developer','Architect','ArchitectPro']},
+  {id:5, name:'AI Fluency: Framework and foundations', url:AC+'ai-fluency-framework-foundations', prod:'AI Fluency', aud:'Professional', min:240, fmt:[11,14], cert:['Associate','Developer','Architect','ArchitectPro']},
+  {id:6, name:'Building with the Claude API', url:AC+'building-with-the-claude-api', prod:'Claude Platform', aud:'Engineering', min:540, fmt:[0,67], cert:['Developer','Architect','ArchitectPro']},
+  {id:7, name:'Introduction to Model Context Protocol', url:AC+'introduction-to-model-context-protocol', prod:'MCP', aud:'Engineering', min:60, fmt:[0,10], cert:['Developer','Architect','ArchitectPro']},
+  {id:8, name:'Model Context Protocol: Advanced topics', url:AC+'model-context-protocol-advanced-topics', prod:'MCP', aud:'Engineering', min:90, fmt:[0,11], cert:['Developer']},
+  {id:9, name:'Claude with Amazon Bedrock', url:AC+'claude-with-amazon-bedrock', prod:'Claude Platform', aud:'Engineering', min:480, fmt:[0,65], cert:['Architect']},
+  {id:10, name:'Claude with Google Cloud\'s Vertex AI', url:AC+'claude-with-google-cloud-s-vertex-ai', prod:'Claude Platform', aud:'Engineering', min:510, fmt:[0,66], cert:['Architect']},
+  {id:11, name:'AI capabilities and limitations', url:AC+'ai-capabilities-and-limitations', prod:'Claude.ai', aud:'Professional', min:210, fmt:[9,13], cert:['Associate','Developer','ArchitectPro']},
+  {id:12, name:'AI Fluency for educators', url:AC+'ai-fluency-for-educators', prod:'AI Fluency', aud:'Education', min:90, fmt:[4,4], cert:[]},
+  {id:13, name:'AI Fluency for students', url:AC+'ai-fluency-for-students', prod:'AI Fluency', aud:'Education', min:180, fmt:[5,5], cert:[]},
+  {id:14, name:'Teaching AI Fluency', url:AC+'teaching-ai-fluency', prod:'AI Fluency', aud:'Education', min:270, fmt:[7,7], cert:[]},
+  {id:15, name:'AI Fluency for nonprofits', url:AC+'ai-fluency-for-nonprofits', prod:'AI Fluency', aud:'Nonprofits', min:240, fmt:[9,9], cert:[]},
+  {id:16, name:'AI Fluency for small businesses', url:AC+'ai-fluency-for-small-businesses', prod:'AI Fluency', aud:'Professional', min:240, fmt:[8,9], cert:[]},
+  {id:17, name:'AI Fluency for builders', url:AC+'ai-fluency-for-builders', prod:'AI Fluency', aud:'Professional', min:180, fmt:[9,9], cert:[]},
+  {id:18, name:'AI Fluency for creative work', url:AC+'ai-fluency-for-creative-work', prod:'AI Fluency', aud:'Professional', min:300, fmt:[8,8], cert:[]},
+  {id:19, name:'AI Fluency for pK–12 educators', url:AC+'ai-fluency-for-k-12-educators', prod:'AI Fluency', aud:'Education', min:180, fmt:[8,10], cert:[]},
+  {id:20, name:'AI Fluency for pK-12 Train the Trainer', url:AC+'ai-fluency-for-pk-12-train-the-trainer', prod:'AI Fluency', aud:'Education', min:45, fmt:[0,4], cert:[]},
+  {id:21, name:'Introduction to agent skills', url:AC+'introduction-to-agent-skills', prod:'Claude Code', aud:'Engineering', min:60, fmt:[6,6], cert:[]},
+  {id:22, name:'Introduction to subagents', url:AC+'introduction-to-subagents', prod:'Claude Code', aud:'Engineering', min:45, fmt:[4,4], cert:[]},
+  {id:23, name:'Introduction to Claude Tag', url:AC+'introduction-to-claude-tag', prod:'Claude Tag', aud:'Professional', min:150, fmt:[0,11], cert:[]},
+  {id:24, name:'Deploying Claude Enterprise with confidence: The five decisions that shape your rollout', url:AC+'deploying-claude-enterprise-with-confidence', prod:'Claude.ai', aud:'Professional', min:150, fmt:[0,14], cert:[]},
+  {id:25, name:'Building effective human-agent teams (beta)', url:AC+'building-effective-human-agent-teams', prod:'Other', aud:'Professional', min:45, fmt:[0,5], cert:[]},
+  {id:26, name:'The AI-native SDLC playbook', url:AC+'ai-native-sdlc-playbook', prod:'Claude Code', aud:'Engineering', min:60, fmt:[0,14], cert:[]},
+  {id:27, prep:['Associate', 8], url:PA+'path/claude-certified-associate-foundations', prod:'Cert', aud:'Professional', min:389, fmt:null, cert:['Associate']},
+  {id:28, prep:['Developer', 5], url:PA+'path/claude-certified-developer-foundations', prod:'Cert', aud:'Engineering', min:774, fmt:null, cert:['Developer']},
+  {id:29, prep:['Architect Professional', 5], url:PA+'path/claude-certified-architect-professional', prod:'Cert', aud:'Engineering', min:733, fmt:null, cert:['ArchitectPro']},
+];
+const courseName = c => c.prep
+  ? c.prep[0] + (c.prep[0].includes('Professional') ? '' : ' – Foundations') + ' Prep Course (Partner Academy, ' + T().modules(c.prep[1]) + ')'
+  : c.name;
+
+const MAX_MIN = Math.max(...COURSES.map(c => c.min || 0));
+let checked = new Set();
+let fCerts = new Set(), fProd = null, fAud = null;
+let sortCol = '', sortDir = 1;
+
+/* ── Filter & Auswahl ── */
+function visible(c) {
+  return (fCerts.size === 0 || c.cert.some(x => fCerts.has(x)))
+      && (fProd === null || c.prod === fProd)
+      && (fAud  === null || c.aud  === fAud);
+}
+
+function selAll()  { COURSES.filter(visible).forEach(c => checked.add(c.id));    render(); }
+function selNone() { COURSES.filter(visible).forEach(c => checked.delete(c.id)); render(); }
+function toggleAll(el) { if (el.checked) selAll(); else selNone(); }
+
+function setActive(prefix, val) {
+  document.querySelectorAll('[id^="' + prefix + '-"]').forEach(b => b.classList.remove('active'));
+  document.getElementById(prefix + '-' + (val === null ? 'all' : val)).classList.add('active');
+}
+
+function filterCert(cert) {
+  // null = alle Kurse; sonst Zertifikat ein-/ausschalten (kombinierbar)
+  if (cert === null) fCerts.clear();
+  else if (fCerts.has(cert)) fCerts.delete(cert);
+  else fCerts.add(cert);
+
+  document.getElementById('c-all').classList.toggle('active', fCerts.size === 0);
+  CERT_ORDER.forEach(x => document.getElementById('c-' + x).classList.toggle('active', fCerts.has(x)));
+
+  // Gewählte Zertifikate wählen exakt ihre Kurse an (Vereinigung); andere Filter zurücksetzen, damit die Summe stimmt
+  fProd = null; fAud = null;
+  setActive('p', null); setActive('a', null);
+  checked = new Set(COURSES.filter(visible).map(c => c.id));
+  renderCertInfo();
+  render();
+}
+function filterProd(p) { fProd = p; setActive('p', p); render(); }
+function filterAud(a)  { fAud  = a; setActive('a', a); render(); }
+
+/* ── Formatierung ── */
+function fmtMin(total) {
+  const h = Math.floor(total / 60), m = total % 60, t = T();
+  if (h === 0) return m + ' ' + t.m;
+  if (m === 0) return h + ' ' + t.h;
+  return h + ' ' + t.h + ' ' + m + ' ' + t.m;
+}
+function certCourses(cert) { return COURSES.filter(c => c.cert.includes(cert)); }
+function sumMin(list) { return list.reduce((t,c) => t + (c.min || 0), 0); }
+function naNote(list) {
+  const na = list.filter(c => c.min === null);
+  return na.length ? T().withoutDur(na.map(courseName).join(', ')) : '';
+}
+
+/* ── Statische Texte & Buttons ── */
+function buildFilterButtons() {
+  const t = T();
+  const prodRow = document.getElementById('prod-controls');
+  prodRow.querySelectorAll('.btn').forEach(b => b.remove());
+  const mk = (row, id, cls, label, fn, active) => {
+    const b = document.createElement('button');
+    b.className = 'btn ' + cls + (active ? ' active' : '');
+    b.id = id; b.textContent = label; b.onclick = fn;
+    row.appendChild(b);
+  };
+  mk(prodRow, 'p-all', '', t.all, () => filterProd(null), fProd === null);
+  Object.keys(PRODUCTS).forEach(p => mk(prodRow, 'p-' + p, PRODUCTS[p].cls, prodLabel(p), () => filterProd(p), fProd === p));
+
+  const audRow = document.getElementById('aud-controls');
+  audRow.querySelectorAll('.btn').forEach(b => b.remove());
+  mk(audRow, 'a-all', '', t.all, () => filterAud(null), fAud === null);
+  AUDIENCES.forEach(a => mk(audRow, 'a-' + a, '', a, () => filterAud(a), fAud === a));
+}
+
+function applyLang() {
+  const t = T();
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t[el.dataset.i18n]; });
+  document.getElementById('chk-all').title = t.toggleAllTitle;
+  document.getElementById('hdr-meta').innerHTML =
+    t.source + ': <a href="https://academy.claude.com/all?kind=course" target="_blank">Claude Academy</a> &amp; ' +
+    '<a href="https://anthropic-partners.skilljar.com/page/partner-certifications" target="_blank">Anthropic Partner Academy</a>' +
+    ' &nbsp;·&nbsp; ' + t.asOf + ' &nbsp;·&nbsp; ' + coursesWord(COURSES.length);
+  document.querySelectorAll('.lang-switch button').forEach(b => {
+    const on = b.dataset.lang === lang;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on);
+  });
+  buildFilterButtons();
+  renderCertInfo();
+  render();
+}
+
+function setLang(l) {
+  if (!I18N[l]) return;
+  lang = l;
+  try { localStorage.setItem('aa-courses-lang', l); } catch (e) {}
+  applyLang();
+}
+document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+/* ── Zertifikats-Infokasten ── */
+function renderCertInfo() {
+  const box = document.getElementById('cert-info'), t = T();
+  const sel = CERT_ORDER.filter(x => fCerts.has(x));
+  if (!sel.length) { box.classList.remove('show'); box.innerHTML = ''; return; }
+
+  const cards = sel.map(cert => {
+    const ci = CERTS[cert], list = certCourses(cert);
+    return `<div class="ci-card ct-${cert}">
+      <div class="ci-title">${ci.exam}</div>
+      <dl>
+        <dt>${t.price}</dt><dd class="mono">${ci.price}</dd>
+        <dt>${t.audience}</dt><dd>${t[ci.aud]}</dd>
+        <dt>${t.studyTime}</dt><dd><span class="mono">${fmtMin(sumMin(list))}</span> · ${coursesWord(list.length)}${naNote(list)}</dd>
+        ${ci.prep ? `<dt>${t.prepPage}</dt><dd><a href="${ci.prep}" target="_blank">Anthropic Partner Academy</a></dd>` : ''}
+      </dl>
+    </div>`;
+  }).join('');
+
+  let combo = '';
+  if (sel.length > 1) {
+    const union  = COURSES.filter(c => c.cert.some(x => fCerts.has(x)));
+    const shared = union.filter(c => sel.filter(x => c.cert.includes(x)).length > 1);
+    const fees   = sel.reduce((s,x) => s + Number(CERTS[x].price.replace(/[^0-9]/g,'')), 0);
+    const saved  = sel.reduce((s,x) => s + sumMin(certCourses(x)), 0) - sumMin(union);
+    combo = `<div class="ci-combo">
+      <strong>${t.combined} (${sel.map(x => CERT_TAG[x]).join(' + ')}):</strong>
+      ${t.studyTime} <span class="mono">${fmtMin(sumMin(union))}</span> · ${coursesWord(union.length)}${naNote(union)}
+      · ${t.examFees} <span class="mono">$${fees}</span><br>
+      ${t.shared(shared.length, fmtMin(saved))}: ${shared.map(courseName).join(', ')}
+    </div>`;
+  }
+
+  box.innerHTML = `<div class="ci-cards">${cards}</div>${combo}<div class="ci-note">${t.certNote}</div>`;
+  box.classList.add('show');
+}
+
+/* ── Tabelle ── */
+function doSort(col) {
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+  ['name','prod','aud','cert','fmt','min'].forEach(c => { document.getElementById('s-'+c).textContent = ''; });
+  document.getElementById('s-'+col).textContent = sortDir === 1 ? '↑' : '↓';
+  render();
+}
+
+function fmtKey(c) { return c.fmt ? c.fmt[0] / c.fmt[1] : 2; }
+function fmtCell(c) {
+  const t = T();
+  if (!c.fmt) return `<span class="fmt na">${t.na}</span>`;
+  const [v, n] = c.fmt;
+  return `<span class="fmt" title="${t.fmtTip(v, n)}">${v > 0 ? t.fmtVT : t.fmtT}</span>`;
+}
+
+function certKey(c) {
+  if (!c.cert.length) return 99;
+  return CERT_ORDER.indexOf(c.cert[0]) * 10 + (10 - c.cert.length);
+}
+
+function render() {
+  const t = T();
+  let list = [...COURSES];
+  const cmp = (a,b) => a.localeCompare(b, lang);
+  if (sortCol === 'name') list.sort((a,b) => sortDir * cmp(courseName(a), courseName(b)));
+  else if (sortCol === 'prod') list.sort((a,b) => sortDir * cmp(prodLabel(a.prod), prodLabel(b.prod)));
+  else if (sortCol === 'aud')  list.sort((a,b) => sortDir * cmp(a.aud, b.aud));
+  else if (sortCol === 'cert') list.sort((a,b) => sortDir * (certKey(a) - certKey(b)));
+  else if (sortCol === 'fmt')  list.sort((a,b) => sortDir * (fmtKey(a) - fmtKey(b)));
+  else if (sortCol === 'min')  list.sort((a,b) => {
+    if (a.min === null && b.min === null) return 0;
+    if (a.min === null) return 1;
+    if (b.min === null) return -1;
+    return sortDir * (a.min - b.min);
+  });
+
+  document.getElementById('tbody').innerHTML = list.map(c => {
+    const vis = visible(c), chk = checked.has(c.id);
+    const pct = c.min ? Math.round(c.min / MAX_MIN * 100) : 0;
+    const p = PRODUCTS[c.prod];
+    const certs = c.cert.length
+      ? c.cert.map(x => `<span class="ctag ct-${x}" title="${CERTS[x].exam}">${CERT_TAG[x]}</span>`).join('')
+      : '<span class="none">–</span>';
+    return `<tr class="${vis ? '' : 'dim'}">
+      <td class="tc"><input type="checkbox" ${chk ? 'checked' : ''} onchange="toggle(${c.id},this)" ${vis ? '' : 'disabled'}></td>
+      <td class="name"><a href="${c.url}" target="_blank">${courseName(c)}</a></td>
+      <td><span class="badge ${p.badge}">${prodLabel(c.prod)}</span></td>
+      <td class="aud">${c.aud}</td>
+      <td class="certs">${certs}</td>
+      <td class="fmt-td">${fmtCell(c)}</td>
+      ${c.min ? `<td class="time">${fmtMin(c.min)}</td>` : `<td class="na">${t.na}</td>`}
+      <td class="bar-td"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${p.color}"></div></div></td>
+    </tr>`;
+  }).join('');
+
+  updateSum();
+  updateChkAll();
+}
+
+function toggle(id, el) {
+  if (el.checked) checked.add(id); else checked.delete(id);
+  updateSum(); updateChkAll();
+}
+
+function updateChkAll() {
+  const vis = COURSES.filter(visible);
+  const allChk  = vis.length > 0 && vis.every(c => checked.has(c.id));
+  const noneChk = vis.every(c => !checked.has(c.id));
+  const el = document.getElementById('chk-all');
+  el.checked = allChk;
+  el.indeterminate = !allChk && !noneChk;
+}
+
+function updateSum() {
+  const t = T();
+  const sel = COURSES.filter(c => checked.has(c.id));
+  const withTime = sel.filter(c => c.min !== null);
+  const withoutTime = sel.filter(c => c.min === null);
+  const total = withTime.reduce((s,c) => s + c.min, 0);
+  const $ = id => document.getElementById(id);
+
+  $('sum-count').textContent = t.selected(sel.length, COURSES.length);
+
+  if (sel.length === 0 || withTime.length === 0) {
+    $('sum-val').textContent = '—';
+    $('sum-unit').textContent = sel.length ? t.noDuration : '';
+    $('sum-na').textContent = '';
+    $('sum-breakdown').textContent = '';
+    return;
+  }
+
+  $('sum-val').textContent = fmtMin(total);
+  $('sum-unit').textContent = t.hours((total / 60).toFixed(1).replace('.', t.decimal));
+
+  const prods = [...new Set(withTime.map(c => c.prod))];
+  $('sum-breakdown').textContent = prods.map(p =>
+    prodLabel(p) + ': ' + fmtMin(withTime.filter(c => c.prod === p).reduce((s,c) => s + c.min, 0))
+  ).join('  ·  ');
+
+  $('sum-na').textContent = withoutTime.length ? t.notIncluded(withoutTime.map(courseName).join(', ')) : '';
+}
+
+COURSES.forEach(c => checked.add(c.id));
+applyLang();
+</script>
+</body>
+</html>
